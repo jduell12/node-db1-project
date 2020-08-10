@@ -3,8 +3,12 @@ const db = require('../data/dbConfig')
 const router = express.Router()
 
 router.get('/', (req, res) => {
+  const queryString = req.body
+
   db('accounts')
     .select('*')
+    .limit(queryString.limit)
+    .orderBy(queryString.sortby, queryString.sortdir)
     .then(accounts => {
       res.status(200).json({ data: accounts })
     })
