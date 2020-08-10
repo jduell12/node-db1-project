@@ -32,7 +32,21 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.post('/:id', (req, res) => {})
+router.post('/:id', (req, res) => {
+  const account = req.body
+  const accountId = req.params.id
+
+  db('accounts')
+    .insert(account)
+    .returning('account')
+    .then(accounts => {
+      res.status(201).json({ inserted: accounts })
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ errorMessage: err.message })
+    })
+})
 
 router.put('/:id', (req, res) => {})
 
