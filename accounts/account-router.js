@@ -7,8 +7,8 @@ router.get('/', (req, res) => {
 
   db('accounts')
     .select('*')
-    .limit(queryString.limit)
-    .orderBy(queryString.sortby, queryString.sortdir)
+    .limit(queryString.limit || 100)
+    .orderBy((queryString.sortby, queryString.sortdir) || 'id')
     .then(accounts => {
       res.status(200).json({ data: accounts })
     })
