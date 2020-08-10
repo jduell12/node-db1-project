@@ -48,7 +48,25 @@ router.post('/:id', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {})
+router.put('/:id', (req, res) => {
+  const accountId = req.params.id
+  const changes = req.body
+
+  db('accounts')
+    .where({ id: accountId })
+    .update(changes)
+    .then(count => {
+      if (count) {
+        res.status(200).json({ message: 'Updated account successfully' })
+      } else {
+        res.status(404).json({ message: 'Account with that ID not found' })
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ errorMessage: err.message })
+    })
+})
 
 router.delete('/:id', (req, res) => {})
 
