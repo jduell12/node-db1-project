@@ -1,9 +1,15 @@
-const express = require("express");
+const express = require('express')
 
-const db = require("../data/dbConfig.js");
+const db = require('../data/dbConfig.js')
+const AccountRouter = require('../accounts/account-router')
 
-const server = express();
+const server = express()
 
-server.use(express.json());
+server.use(express.json())
+server.use('/api/accounts', AccountRouter)
 
-module.exports = server;
+server.get('/', (req, res) => {
+  res.status(200).json({ api: 'working' })
+})
+
+module.exports = server
